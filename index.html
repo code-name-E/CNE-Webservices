@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Elianna Falcon is a software engineer who builds and fixes websites for small businesses. Flat-rate pricing, an instant cost estimator, and plain-English support.">
+<title>CNE Webservices | Websites for small businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F6FC; --surface:#FFFFFF; --surface-2:#E7EDFA; --ink:#0F1630; --muted:#465172; --line:#D0D8EC;
+  --accent:#2740E8; --on-accent:#FFFFFF; --pop:#FFC933; --on-pop:#0F1630;
+  --ok:#08795A; --on-ok:#FFFFFF; --bad:#C92F3F; --on-bad:#FFFFFF;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A0F22; --surface:#121936; --surface-2:#1B2450; --ink:#EAF0FF; --muted:#A8B3D6; --line:#2B3666;
+    --accent:#93A5FF; --on-accent:#0A0F22; --pop:#FFD24D; --on-pop:#0A0F22;
+    --ok:#43E0A0; --on-ok:#06210F; --bad:#FF8592; --on-bad:#2A0A10;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A0F22; --surface:#121936; --surface-2:#1B2450; --ink:#EAF0FF; --muted:#A8B3D6; --line:#2B3666;
+  --accent:#93A5FF; --on-accent:#0A0F22; --pop:#FFD24D; --on-pop:#0A0F22;
+  --ok:#43E0A0; --on-ok:#06210F; --bad:#FF8592; --on-bad:#2A0A10;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,svg{max-width:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.08;margin:0;letter-spacing:-.015em}
+h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800}
+h3{font-size:1.4rem;font-weight:700}
+p{margin:0 0 1em}
+.lede{color:var(--muted);max-width:62ch;font-size:1.1rem}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;padding:.8em 1.35em;border-radius:999px;font:700 1rem/1.2 var(--body);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s ease,background .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-pop{background:var(--pop);color:var(--on-pop)}
+.btn-sm{padding:.55em 1.05em;font-size:.95rem}
+
+/* header */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.head-in{display:flex;align-items:center;gap:16px;height:64px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.2rem;color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.cursor{display:inline-block;width:.5em;height:1em;background:var(--pop);border-radius:2px}
+.nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+.nav a:not(.btn){padding:.45em .95em;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:600}
+.nav a:not(.btn):hover{background:var(--surface-2)}
+.nav a[aria-current="true"]:not(.btn){background:var(--surface-2);box-shadow:inset 0 -3px 0 var(--pop)}
+.nav .btn{margin-left:8px}
+.menu-btn{display:none;margin-left:auto;background:transparent;border:2px solid var(--ink);color:var(--ink);border-radius:10px;padding:.4em .8em;font:700 .95rem var(--body);cursor:pointer}
+
+/* hero */
+.hero{padding:clamp(36px,7vw,84px) 0 clamp(56px,8vw,104px)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,68px);align-items:center}
+.hero h1{font-size:clamp(2.5rem,5.6vw,4.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.02;margin-bottom:.45em}
+.hero .lede{margin-bottom:1.6em}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.win{background:var(--surface);border:2px solid var(--ink);border-radius:16px;box-shadow:9px 9px 0 var(--pop);overflow:hidden}
+.win-bar{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface-2);border-bottom:2px solid var(--ink)}
+.dots{display:flex;gap:6px}
+.dots i{width:11px;height:11px;border-radius:50%;border:2px solid var(--ink);display:block}
+.url{flex:1;min-width:0;font:500 .78rem var(--mono);background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:.3em .9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{font:700 .74rem var(--mono);padding:.3em .7em;border-radius:999px;white-space:nowrap}
+.win[data-state="broken"] .badge{background:var(--bad);color:var(--on-bad)}
+.win[data-state="fixed"] .badge{background:var(--ok);color:var(--on-ok)}
+.win-body{position:relative;min-height:310px}
+.pane{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:26px;transition:opacity .5s ease}
+.pane-fixed{opacity:0}
+.win[data-state="fixed"] .pane-fixed{opacity:1}
+.win[data-state="fixed"] .pane-broken{opacity:0}
+.big404{font:800 clamp(4.2rem,11vw,6.4rem)/1 var(--display);color:var(--bad);letter-spacing:-.04em}
+.pane-title{font:700 1.35rem var(--display);margin:.2em 0 .3em}
+.pane-sub{color:var(--muted);font-size:.95rem;max-width:32ch}
+.dead-links{display:flex;gap:14px;font-size:.9rem;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px}
+.m-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.m-logo{width:30px;height:30px;border-radius:8px;background:var(--accent)}
+.m-links{display:flex;gap:8px}.m-links i{width:38px;height:8px;border-radius:4px;background:var(--line);display:block}
+.m-h{font:800 1.9rem/1.05 var(--display);letter-spacing:-.02em;margin:0 0 .3em}
+.m-p{color:var(--muted);margin-bottom:.9em}
+.m-btns{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.m-btns span{padding:.45em 1em;border-radius:999px;font-weight:700;font-size:.88rem}
+.m-b1{background:var(--accent);color:var(--on-accent)}.m-b2{border:2px solid var(--ink)}
+.m-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.m-tiles i{display:block;height:54px;border-radius:10px;background:var(--surface-2);border:1.5px solid var(--line)}
+.m-tiles i:nth-child(2){background:var(--pop);border-color:var(--pop)}
+.win-foot{background:#0B1022;color:#E9EEFF;font:500 .82rem var(--mono);padding:11px 15px;display:flex;gap:8px;min-height:42px;align-items:center}
+.win-foot .p{color:#FFD24D}
+.replay{margin-top:18px;background:transparent;border:0;color:var(--muted);font:600 .9rem var(--body);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:.3em 0}
+.replay:hover{color:var(--ink)}
+
+/* sections */
+.sec{padding:clamp(56px,8vw,100px) 0}
+.sec-alt{background:var(--surface);border-block:1px solid var(--line)}
+.sec-head{margin-bottom:clamp(28px,4vw,48px)}
+.sec-head .lede{margin-top:.8em;margin-bottom:0}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,64px);align-items:start}
+.about-grid p{max-width:60ch}
+.link-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.4em}
+.term{background:#0B1022;color:#E9EEFF;border:2px solid var(--ink);border-radius:14px;overflow:hidden;font:400 .9rem/1.75 var(--mono)}
+.term-bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid #26305A;background:#121936}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:#3A4680;display:block}
+.term-body{padding:16px 18px 18px;overflow-wrap:anywhere}
+.term .p{color:#FFD24D}.term .o{color:#9FB0FF;margin-bottom:.5em;display:block}
+.term a{color:#9FB0FF}
+.term .cur{display:inline-block;width:.6em;height:1.05em;background:#FFD24D;vertical-align:text-bottom}
+.steps{list-style:none;margin:clamp(40px,6vw,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:14px}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;background:var(--pop);color:var(--on-pop);font:800 .95rem var(--display);margin-bottom:.6em}
+.steps h3{font-size:1.15rem;margin-bottom:.35em}
+.steps p{color:var(--muted);margin:0;font-size:1rem}
+
+/* services */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,36px)}
+.svc{border-top:4px solid var(--ink);padding-top:16px}
+.svc h3{display:flex;gap:10px;align-items:flex-start;font-size:1.2rem;margin-bottom:.5em}
+.star{flex:none;display:inline-grid;place-items:center;width:1.65em;height:1.65em;border-radius:50%;background:var(--pop);color:var(--on-pop);font-size:.8em;line-height:1;margin-top:.05em}
+.svc .for{color:var(--muted);font-size:.95rem;margin-bottom:1em}
+.svc ul{list-style:none;margin:0;padding:0}
+.svc li{position:relative;padding:.25em 0 .25em 1.25em}
+.svc li::before{content:"\2013";position:absolute;left:0;color:var(--accent);font-weight:700}
+.svc-note{margin:clamp(28px,4vw,44px) 0 0;padding:14px 18px;border-left:5px solid var(--pop);background:var(--surface-2);border-radius:0 12px 12px 0;max-width:72ch}
+
+/* calculator */
+.calc{margin-top:clamp(48px,7vw,88px)}
+.calc-head{margin-bottom:22px}
+.calc-head h3{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;margin-bottom:.35em}
+.calc-head p{color:var(--muted);max-width:62ch;margin:0}
+.calc-win{border:2px solid var(--ink);border-radius:16px;background:var(--surface);overflow:hidden}
+.calc-win .win-bar{background:var(--surface-2)}
+.calc-title{font:600 .82rem var(--mono);color:var(--muted)}
+.calc-body{padding:clamp(18px,3vw,34px)}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font:700 1.2rem var(--display);padding:0;margin-bottom:.8em}
+.choices{display:flex;flex-wrap:wrap;gap:10px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.choice span{display:block;padding:.7em 1.3em;border:2px solid var(--ink);border-radius:12px;font-weight:700;background:var(--surface);pointer-events:none}
+.choice input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.choice input:focus-visible+span{outline:3px solid var(--accent);outline-offset:3px}
+.calc-path{margin-top:28px;padding-top:26px;border-top:2px dashed var(--line)}
+.calc-intro{color:var(--muted);max-width:66ch;margin-bottom:1.3em}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+.tier{border:2px solid var(--line);border-radius:12px;padding:18px;background:var(--bg);transition:border-color .2s}
+.tier:has(input[data-role="toggle"]:checked){border-color:var(--accent)}
+.tier h4{font-size:1.25rem;margin-bottom:.3em}
+.tier-price{margin:0 0 .3em}
+.tier-price strong{font:800 1.6rem var(--display)}
+.tier-term{margin:0 0 .8em;color:var(--muted);font-size:.95rem}
+.tier-term span{font-weight:700;color:var(--ink)}
+.incl{margin-bottom:1em}
+.incl summary{cursor:pointer;font-weight:700;padding:.3em 0}
+.ticks{list-style:none;margin:.5em 0 0;padding:0;font-size:.95rem}
+.ticks li{position:relative;padding:.3em 0 .3em 1.5em}
+.ticks li::before{content:"\2713";position:absolute;left:0;color:var(--ok);font-weight:800}
+.eg{display:block;margin-top:.3em;padding:.5em .75em;background:var(--surface-2);border-radius:8px;color:var(--muted);font-size:.88rem;line-height:1.45}
+.check{display:flex;align-items:center;gap:10px;font-weight:700;cursor:pointer;padding:.4em 0}
+.check input{width:1.2rem;height:1.2rem;accent-color:var(--accent);cursor:pointer;margin:0}
+.tier-calc{margin-top:.6em;padding-top:1em;border-top:2px dashed var(--line)}
+.field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.95rem;margin-bottom:1em}
+input[type="number"]{font:600 1rem var(--body);padding:.55em .7em;border:2px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink);width:8em}
+.breakdown{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin:0;font-size:.95rem}
+.breakdown dt{color:var(--muted)}
+.breakdown dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.breakdown .tot{color:var(--ink);font:800 1.25rem var(--display);padding-top:.5em;border-top:2px solid var(--ink)}
+.breakdown dd.tot{font-variant-numeric:tabular-nums}
+.hint{margin:.8em 0 0;padding:.5em .75em;background:var(--surface-2);border-left:4px solid var(--pop);border-radius:0 8px 8px 0;font-size:.9rem;color:var(--ink)}
+.compare-toggle{margin-top:24px;padding:14px 18px;border:2px solid var(--line);border-radius:12px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between}
+.compare-toggle p{margin:0;color:var(--muted);font-size:.95rem}
+.compare{margin-top:18px}
+.table-scroll{overflow-x:auto;border:2px solid var(--ink);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.98rem}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:var(--surface-2);font-family:var(--display);font-size:1.05rem;border-bottom:2px solid var(--ink)}
+tbody th{font-weight:600;color:var(--muted);white-space:nowrap}
+td small{display:block;color:var(--muted);font-size:.82rem;margin-top:.3em}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+.cmp-total th,.cmp-total td{font:800 1.2rem var(--display);color:var(--ink);background:var(--surface-2)}
+td{font-variant-numeric:tabular-nums}
+.fix-price{font-size:1.15rem;margin:1.2em 0 .8em}
+#fix-result{max-width:520px}
+.calc-cta{margin-top:28px;padding-top:22px;border-top:2px dashed var(--line);display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.calc-cta p{margin:0;color:var(--muted);max-width:52ch;font-size:.95rem}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+.plan{background:var(--bg);border:2px solid var(--ink);border-radius:14px;padding:clamp(20px,2.4vw,28px)}
+.plan h3{margin-bottom:.5em}
+.plan-price{margin:0 0 .4em}
+.plan-price .amt{display:block;font:800 clamp(2.4rem,4vw,3.2rem)/1 var(--display);letter-spacing:-.03em}
+.plan-price .plan-sub{display:block;color:var(--muted);font-size:.95rem;margin-top:.35em}
+.plan-term{display:inline-block;margin:.6em 0 1.2em;padding:.3em .8em;background:var(--pop);color:var(--on-pop);border-radius:999px;font-weight:700;font-size:.9rem}
+.plan h4{font-size:1rem;font-family:var(--body);font-weight:700;margin-bottom:.2em}
+.sub-h{margin:clamp(48px,7vw,84px) 0 14px}
+.sub-h h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin-bottom:.4em}
+.sub-h p{color:var(--muted);max-width:66ch;margin:0}
+.fix-table{margin-top:20px}
+
+/* reviews */
+.review-empty{border:2px dashed var(--ink);border-radius:16px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;background:var(--surface)}
+.quote-mark{font:800 5rem/.7 var(--display);color:var(--pop);-webkit-text-stroke:2px var(--ink);height:.6em}
+.review-empty h3{margin-bottom:.35em}
+.review-empty p{color:var(--muted);max-width:56ch}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.review{margin:0;padding:22px;background:var(--surface);border:2px solid var(--ink);border-radius:14px}
+.review blockquote{margin:0 0 1em;font-size:1.05rem}
+.review figcaption{font-weight:700}
+.review figcaption span{display:block;color:var(--muted);font-weight:500;font-size:.92rem}
+.review-quote{color:var(--muted);max-width:56ch;font-size:1.05rem;margin:0 0 .6em}
+.review-by{font-weight:700;margin:0 0 .9em}
+.review-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.review-next{width:2.5em;height:2.5em;border-radius:50%;border:2px solid var(--ink);background:var(--surface);display:inline-grid;place-items:center;cursor:pointer;font-size:1.1rem;line-height:1;flex:none;transition:transform .15s ease,background .15s ease}
+.review-next:hover{background:var(--surface-2);transform:translateX(2px)}
+.review-next:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.review-count{font-size:.85rem;color:var(--muted)}
+
+/* contact */
+.contact{background:var(--ink);color:var(--bg);padding:clamp(56px,8vw,96px) 0 clamp(36px,5vw,56px)}
+.contact h2{color:var(--bg);margin-bottom:.4em}
+.contact p{color:color-mix(in srgb,var(--bg) 82%,transparent);max-width:56ch}
+.contact-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:1.4em}
+.contact .btn-ghost{border-color:var(--bg);color:var(--bg)}
+.foot{margin-top:clamp(36px,5vw,64px);padding-top:18px;border-top:1px solid color-mix(in srgb,var(--bg) 25%,transparent);font-size:.9rem;color:color-mix(in srgb,var(--bg) 70%,transparent)}
+
+/* responsive */
+@media (max-width:1000px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .plans,.tier-grid{grid-template-columns:1fr}
+  .plan,.tier{max-width:640px}
+  .tier-grid{max-width:640px}
+}
+@media (max-width:820px){
+  .hero-grid,.about-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .menu-btn{display:inline-flex}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 16px}
+  .nav.open{display:flex}
+  .nav .btn{margin:8px 0 0}
+  .nav a:not(.btn){padding:.7em 1em}
+}
+@media (max-width:560px){
+  .svc-grid{grid-template-columns:1fr}
+  .review-empty{grid-template-columns:1fr}
+  .win{box-shadow:6px 6px 0 var(--pop)}
+  .win-body{min-height:290px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top" aria-label="CNE Webservices, back to top">CNE Webservices<span class="cursor" aria-hidden="true"></span></a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#about" data-nav>About me</a>
+      <a href="#services" data-nav>Services</a>
+      <a href="#pricing" data-nav>Pricing</a>
+      <a href="#reviews" data-nav>Reviews</a>
+      <a class="btn btn-primary btn-sm" href="#contact">Contact me</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Website missing, broken, or out of date? I'll fix that.</h1>
+      <p class="lede">I'm Elianna, a software engineer who builds and repairs websites for small businesses. Flat rates, plain English, and a real person who answers your messages.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#calculator" data-scroll="calculator">Estimate my cost</a>
+        <a class="btn btn-ghost" href="#pricing" data-scroll="pricing">See pricing</a>
+      </div>
+    </div>
+    <div>
+      <div class="win" id="demo" data-state="broken" role="img" aria-label="Animation: a broken 404 page turns into a working small business website.">
+        <div class="win-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="url">yourbusiness.com</span>
+          <span class="badge" id="demo-badge">404</span>
+        </div>
+        <div class="win-body">
+          <div class="pane pane-broken">
+            <div class="big404">404</div>
+            <p class="pane-title">Page not found</p>
+            <p class="pane-sub">The link you followed is broken, or the page was moved.</p>
+            <div class="dead-links"><span>Home</span><span>Services</span><span>Contact</span></div>
+          </div>
+          <div class="pane pane-fixed">
+            <div class="m-nav"><span class="m-logo"></span><span class="m-links"><i></i><i></i><i></i></span></div>
+            <p class="m-h">Your Business Name</p>
+            <p class="m-p">Open today. Call or book online.</p>
+            <div class="m-btns"><span class="m-b1">Call now</span><span class="m-b2">Book online</span></div>
+            <div class="m-tiles"><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="win-foot"><span class="p">$</span><span id="demo-status">waiting for yourbusiness.com</span></div>
+      </div>
+      <button class="replay" id="demo-replay" type="button">Replay</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec sec-alt" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <h2 style="margin-bottom:.6em">Hi, I'm Elianna.</h2>
+        <p>I'm a software engineer, and I build and repair websites for small businesses. Most owners don't have time to sort out hosting, broken links, or a site that quietly stopped working, so I take that off their plate.</p>
+        <p>I look for businesses whose websites are missing, broken, or out of date, then reach out with a plan to fix it. If I contacted you, this page is the short version of who I am, what I do, and what it costs.</p>
+        <div class="link-row" id="about-links" hidden>
+          <a class="btn btn-ghost btn-sm" id="li-about" href="#" target="_blank" rel="noopener" hidden>LinkedIn</a>
+          <a class="btn btn-ghost btn-sm" id="gh-about" href="#" target="_blank" rel="noopener" hidden>GitHub</a>
+        </div>
+      </div>
+      <div class="term" aria-label="Quick facts about Elianna">
+        <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="term-body">
+          <div><span class="p">$</span> whoami</div><span class="o">elianna_falcon</span>
+          <div><span class="p">$</span> cat role.txt</div><span class="o">software engineer</span>
+          <div><span class="p">$</span> cat focus.txt</div><span class="o">websites for small businesses</span>
+          <div><span class="p">$</span> cat area_base.txt</div><span class="o">Charlotte, North Carolina</span>
+          <div><span class="p">$</span> cat contact.txt</div>
+          <span class="o"><a href="mailto:eliannaf.ef@gmail.com">eliannaf.ef@gmail.com</a><br><a href="tel:+19105842271">910-584-2271</a></span>
+          <div><span class="p">$</span> <span class="cur" aria-hidden="true"></span></div>
+        </div>
+      </div>
+    </div>
+    <ol class="steps">
+      <li><h3>Tell me where you are</h3><p>No website, a broken one, or one that's out of date. Use the estimate tool below or just send me an email.</p></li>
+      <li><h3>I build or fix it</h3><p>You get a working website, not a to-do list. I handle the technical parts so you don't have to.</p></li>
+      <li><h3>I keep it healthy</h3><p>Your maintenance plan covers updates, monitoring, and security checks after your site is live.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- SERVICES + CALCULATOR -->
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What I do</h2>
+      <p class="lede">Find the column that matches where your website is today.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc">
+        <h3><span class="star" aria-hidden="true">&#9733;</span>Building a new website</h3>
+        <p class="for">For businesses that don't have a website yet.</p>
+        <ul>
+          <li>Wireframing</li><li>UX/UI Design</li><li>Platform setup</li><li>Custom Responsive Coding</li><li>Content Integration</li><li>SEO Setup</li><li>Essential Tracking</li><li>Cross-Browser Testing</li><li>Speed Optimization</li><li>Security Hardening</li><li>Client Handoff</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <h3><span class="star" aria-hidden="true">&#9733;</span>Broken website fixes</h3>
+        <p class="for">For sites that are down, hacked, or not working right.</p>
+        <ul>
+          <li>Conflict Resolution</li><li>Form &amp; Payment Fixes</li><li>Malware &amp; Hack Cleanups</li><li>Hosting Migration</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <h3><span class="star" aria-hidden="true">&#9733;</span>404 errors &amp; URL restructuring</h3>
+        <p class="for">For sites with dead links and &ldquo;page not found&rdquo; errors.</p>
+        <ul>
+          <li>301 Redirect Mapping</li><li>Broken Link Auditing</li><li>Google Search Console Cleanup</li><li>Custom 404 Page Design</li>
+        </ul>
+      </div>
+      <div class="svc">
+        <h3><span class="star" aria-hidden="true">&#9733;</span>Outdated website modernization</h3>
+        <p class="for">For sites that look or run like they're from another decade.</p>
+        <ul>
+          <li>Responsive Retrofitting</li><li>PHP / Server Environment Upgrades</li><li>Design Refresh</li><li>Database Optimization</li>
+        </ul>
+      </div>
+    </div>
+    <p class="svc-note"><strong>Note:</strong> there are many more services provided based on your tier and the type of service needed. If you need something you don't see here, message me and ask.</p>
+
+    <!-- calculator -->
+    <div class="calc" id="calculator">
+      <div class="calc-head">
+        <h3>Estimate your cost</h3>
+        <p>Answer one or two questions and see what your total comes to, using my listed rates.</p>
+      </div>
+      <div class="calc-win">
+        <div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="calc-title">cost-estimator</span></div>
+        <div class="calc-body">
+          <fieldset>
+            <legend>Do you already have a website?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="hasSite" value="yes"><span>Yes, I have one</span></label>
+              <label class="choice"><input type="radio" name="hasSite" value="no"><span>No, I don't have one</span></label>
+            </div>
+          </fieldset>
+
+          <!-- NO website: show tiers -->
+          <div class="calc-path" id="calc-no" hidden>
+            <p class="calc-intro">Here are the three plans for a brand-new website. Tick <strong>Calculate my total</strong> under a plan and enter how long you want service to run. Each plan starts at its own service time, so totals are worked out the way that plan is priced.</p>
+            <div class="tier-grid" id="tier-grid"></div>
+            <div class="compare-toggle">
+              <label class="check"><input type="checkbox" id="compare-on"><span>Compare all three plans side by side</span></label>
+              <p>Set a service time for each plan and see the totals line up.</p>
+            </div>
+            <div class="compare" id="compare" hidden>
+              <div class="table-scroll"><table id="cmp-table"></table></div>
+              <p class="hint" id="cmp-hint" hidden></p>
+            </div>
+          </div>
+
+          <!-- YES website: show fix options -->
+          <div class="calc-path" id="calc-yes" hidden>
+            <fieldset>
+              <legend>Is your website broken, showing 404 errors with links not working, or outdated?</legend>
+              <div class="choices" id="fix-choices"></div>
+            </fieldset>
+            <div id="fix-result" hidden>
+              <p class="fix-price" id="fix-price"></p>
+              <label class="field"><span>Maintenance in months (6 months minimum)</span>
+                <input type="number" inputmode="numeric" id="fix-months" min="6" max="120" step="1" value="6"></label>
+              <dl class="breakdown" id="fix-break" aria-live="polite"></dl>
+              <p class="hint" id="fix-hint" hidden></p>
+            </div>
+          </div>
+
+          <div class="calc-cta" id="calc-cta" hidden>
+            <p>This is an estimate based on my listed rates. Send it over and I'll follow up with next steps.</p>
+            <a class="btn btn-primary" id="calc-mail" href="mailto:eliannaf.ef@gmail.com">Email me this estimate</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec sec-alt" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Pricing</h2>
+      <p class="lede">Flat rates you can read in one sitting. Pick the plan that fits, or use the estimator above to see your exact total.</p>
+    </div>
+
+    <div class="sub-h" style="margin-top:0">
+      <h3>Need a new website?</h3>
+      <p>Three plans for businesses that don't have a website yet. Every plan covers the build plus a set period of maintenance.</p>
+    </div>
+    <div class="plans" id="plans" style="margin-top:22px"></div>
+
+    <div class="sub-h">
+      <h3>Already have a website that needs help?</h3>
+      <p>Since your website already exists, it's usually broken, showing 404 errors with links not working, or outdated. The full price of building a website doesn't apply here, even if I update your site into something new. Maintenance lasts 6 months unless you ask for longer.</p>
+    </div>
+    <div class="table-scroll fix-table">
+      <table id="fix-table"></table>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Reviews</h2>
+    </div>
+    <div id="review-list"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- CONTACT -->
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <h2>Want a working website? Let's talk.</h2>
+    <p>Send me your business name and what's going on with your site, or that you don't have one yet. I'll reply with next steps.</p>
+    <div class="contact-links">
+      <a class="btn btn-pop" href="mailto:eliannaf.ef@gmail.com">eliannaf.ef@gmail.com</a>
+      <a class="btn btn-ghost" href="tel:+19105842271">910-584-2271</a>
+      <a class="btn btn-ghost" id="li-foot" href="#" target="_blank" rel="noopener" hidden>LinkedIn</a>
+      <a class="btn btn-ghost" id="gh-foot" href="#" target="_blank" rel="noopener" hidden>GitHub</a>
+      <a class="btn btn-ghost" href="https://calendly.com/eliannaf-ef/20" target="_blank" rel="noopener">Schedule</a>
+    </div>
+    <div class="foot">&copy; <span id="year">2026</span> CNE Webservices. Websites for small businesses.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- Easy edits: links and reviews ---------- */
+var LINKS = { linkedin: 'https://linkedin.com/in/elianna-falcon/', github: 'https://github.com/code-name-E' };          // paste your full URLs here, e.g. 'https://github.com/yourname'
+var REVIEWS = [
+  { name:'Hunter, M.', text:'Elianna is such a sweetheart and very thorough \u2014 everything I asked for, she delivered verbatim. Absolutely coming back for future projects.' },
+  { name:'Elena, B.', text:'I wanted a cute small website that didn\u2019t look AI-made, while everyone else was quoting $1k and up. I found Elianna through LinkedIn, and the rest was history.' },
+  { name:'Vanessa, L.', text:'The tiers and the discount for multiple projects are pretty dope. She\u2019s one of the few offering affordable yet pristine builds.' },
+  { name:'Jelani, H.', text:'Most builders don\u2019t even provide great maintenance. Elianna is detailed, answers every question, and offers services I didn\u2019t even know were possible.' },
+  { name:'Jackson, K.', text:'I know this may not pertain to websites per say, but Elianna built me an SEO optimizer for my business and showed me better ways to categorize my business emails so I don\u2019t miss a thing. All under $5,000, which she truly deserved to charge me triple for.' },
+  { name:'Fin, A.', text:'I still to this day do not know a lick of code, but I enjoy picking at her brain to understand her thought process on how she comes up with such amazing concepts.' },
+  { name:'Jazmeen, A.', text:'It is extremely comfortable getting something made from an actual software engineer \u2014 her work history and credibility is there, the skills are there, and the humor is top notch. I will absolutely always come to her for anything tech related.' },
+  { name:'Elijah, O.', text:'Absolutely 5 stars across the board!' },
+  { name:'Isaiah, D.', text:'Besides her creativity, I love the tiers and appreciate how much service is provided in each.' },
+  { name:'Amanda, G.', text:'I am a wholesaler, and Elianna built me the slickest website that included the security features other platforms ask you to pay an arm and a leg for.' },
+  { name:'Charles, J.', text:'She truly listens to what you want and is very receptive to any constructive criticism. She is a joy to do business with.' },
+  { name:'Jaz\u2019lyn, R.', text:'I always use Etsy, but I wanted a raw-built website that could track certain goals and other features Etsy couldn\u2019t do or provide for free. Granted, this wasn\u2019t on the list of services Elianna provides, but she still welcomed the idea with open arms and delivered.' },
+  { name:'Reigh, F.', text:'I\u2019m switching careers from the health field to the tech field and wanted a beginner-friendly portfolio so I\u2019d have something to submit with applications. Not only did Elianna build me a website and portfolio, but she also gave me two of her own built programs, a new AWS-approved resume, and a cheat sheet in case an employer asks me questions about the build. Total badass.' },
+  { name:'Carlos, K.', text:'I\u2019ve gotten to know Elianna a little more since the start of the year \u2014 I bought Tier Three. Her story and everything she\u2019s overcome is so inspiring. Her thought process, creativity, and empathy are truly touching. She\u2019s truly one of the good ones, and I pray she gets the recognition she deserves. She\u2019s the one to trust with your vision.' },
+  { name:'Maya, F.', text:'Talented, funny, and provides cool discounts (ask her about them).' }
+];                                   // add reviews like: { name:'Jane D.', business:'Jane\'s Bakery', text:'Elianna fixed our site in days.' }
+
+/* ---------- helpers ---------- */
+var $ = function(s, r){ return (r || document).querySelector(s); };
+var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+var fmt = function(n){
+  return new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }).format(n);
+};
+var esc = function(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+
+/* ---------- pricing data (single source of truth) ---------- */
+var TIERS = [
+  { id:'one', name:'Tier One', flat:499, monthly:25, freeMonths:0, term:7, termLabel:'7 months',
+    amt:'$499', sub:'flat rate + $25/mo maintenance',
+    included:[
+      'Basic updates: adding more pictures and updating information, during my business hours.',
+      'Basic uptime monitoring (alerts if the site goes down).',
+      'Security scans and SSL certificate monitoring.'
+    ]},
+  { id:'two', name:'Tier Two', flat:875, monthly:0, freeMonths:0, term:12, termLabel:'1 year',
+    amt:'$875', sub:'flat rate, no monthly fee',
+    included:[
+      'Basic to moderate updates: adding pictures or information and editing or modifying pages (but not changing the whole website), during and after business hours until midnight.',
+      ['Up to 10 changes per quarter.', 'Example: on Monday you ask me to upload 12 pictures and by Friday you ask me to change the font color. That is only 2 changes, so you have 8 left for that quarter.'],
+      'Moderate uptime monitoring and constant logging.',
+      'Support response time within 24 hours.',
+      'Website updates delivered within 48 hours.',
+      'Security scans and SSL certificate monitoring.'
+    ]},
+  { id:'three', name:'Tier Three', flat:3500, monthly:15, freeMonths:12, term:24, termLabel:'2 years',
+    amt:'$3,500', sub:'flat rate, no monthly fee the first year, then $15/mo',
+    included:[
+      'Basic to extreme updates: anything from adding pictures and updating information to changing designs, styles, and fonts. Updates happen even outside business hours.',
+      'Rebuild the entire website (1 allowed every other quarter).',
+      'Priority support response time within an hour.',
+      'Priority changes updated and delivered in under 24 hours.',
+      '3 to 5 hours of dedicated design, development, and/or marketing adjustments per month.',
+      'Advanced speed and data optimization checks.',
+      'Quarterly strategy or check-in call.',
+      'Security scans and SSL certificate monitoring.'
+    ]}
+];
+var FIXES = [
+  { id:'broken',   name:'Broken website fix',            label:'Broken',                          flat:150, monthly:20, freeMonths:0, term:6 },
+  { id:'404',      name:'404 error fix, links not working', label:'404 errors + links not working', flat:200, monthly:20, freeMonths:0, term:6 },
+  { id:'outdated', name:'Outdated website fix',          label:'Outdated',                        flat:250, monthly:10, freeMonths:0, term:6 }
+];
+
+function calc(item, raw){
+  var min = item.term;
+  var n = Number(raw);
+  var valid = raw !== '' && raw !== null && raw !== undefined && isFinite(n);
+  var m = valid ? Math.round(n) : min;
+  var below = valid && m < min;
+  m = Math.min(120, Math.max(min, m));
+  var billed = Math.max(0, m - item.freeMonths);
+  var maint = item.monthly * billed;
+  return { months:m, billed:billed, maint:maint, total:item.flat + maint, below:below, beyond:(item.monthly === 0 && m > item.term) };
+}
+function listHTML(items){
+  return '<ul class="ticks">' + items.map(function(i){
+    return Array.isArray(i) ? '<li>' + esc(i[0]) + '<span class="eg">' + esc(i[1]) + '</span></li>' : '<li>' + esc(i) + '</li>';
+  }).join('') + '</ul>';
+}
+
+/* ---------- state ---------- */
+var state = { hasSite:null, tierOn:{}, months:{}, compare:false, fix:null, fixMonths:'6' };
+TIERS.forEach(function(t){ state.tierOn[t.id] = false; state.months[t.id] = String(t.term); });
+
+/* ---------- pricing section ---------- */
+$('#plans').innerHTML = TIERS.map(function(t){
+  return '<article class="plan"><h3>' + t.name + '</h3>' +
+    '<p class="plan-price"><span class="amt">' + t.amt + '</span><span class="plan-sub">' + t.sub + '</span></p>' +
+    '<p class="plan-term">Service time: ' + t.termLabel + '</p>' +
+    '<h4>Maintenance included</h4>' + listHTML(t.included) + '</article>';
+}).join('');
+
+$('#fix-table').innerHTML =
+  '<thead><tr><th scope="col">What needs fixing</th><th scope="col">Flat fee</th><th scope="col">Maintenance</th><th scope="col">6-month total</th></tr></thead><tbody>' +
+  FIXES.map(function(f){
+    return '<tr><th scope="row">' + esc(f.name) + '</th><td>' + fmt(f.flat) + '</td><td>' + fmt(f.monthly) + '/mo</td><td><strong>' + fmt(f.flat + f.monthly * f.term) + '</strong></td></tr>';
+  }).join('') + '</tbody>';
+
+/* ---------- calculator: build ---------- */
+$('#tier-grid').innerHTML = TIERS.map(function(t){
+  return '<article class="tier" data-tier="' + t.id + '">' +
+    '<h4>' + t.name + '</h4>' +
+    '<p class="tier-price"><strong>' + t.amt + '</strong> ' + t.sub + '</p>' +
+    '<p class="tier-term"><span>Service time:</span> ' + t.termLabel + '</p>' +
+    '<details class="incl"><summary>Maintenance included</summary>' + listHTML(t.included) + '</details>' +
+    '<label class="check"><input type="checkbox" data-role="toggle" data-tier="' + t.id + '"><span>Calculate my total</span></label>' +
+    '<div class="tier-calc" hidden>' +
+      '<label class="field"><span>Service time in months</span>' +
+      '<input type="number" inputmode="numeric" min="' + t.term + '" max="120" step="1" value="' + t.term + '" data-role="months" data-tier="' + t.id + '"></label>' +
+      '<dl class="breakdown" data-role="breakdown" aria-live="polite"></dl>' +
+      '<p class="hint" data-role="hint" hidden></p>' +
+    '</div></article>';
+}).join('');
+
+function cmpRow(label, cell, cls){
+  return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><th scope="row">' + label + '</th>' + TIERS.map(cell).join('') + '</tr>';
+}
+$('#cmp-table').innerHTML =
+  '<thead><tr><th scope="col"><span class="sr">Measure</span></th>' + TIERS.map(function(t){ return '<th scope="col">' + t.name + '</th>'; }).join('') + '</tr></thead><tbody>' +
+  cmpRow('Service time (months)', function(t){
+    return '<td><input type="number" inputmode="numeric" min="' + t.term + '" max="120" step="1" value="' + t.term + '" data-role="months" data-tier="' + t.id + '" aria-label="' + t.name + ' service time in months"><small>Plan runs ' + t.termLabel + '</small></td>';
+  }) +
+  cmpRow('Flat rate', function(t){ return '<td>' + fmt(t.flat) + '</td>'; }) +
+  cmpRow('Maintenance', function(t){ return '<td data-cmp="maint" data-tier="' + t.id + '"></td>'; }) +
+  cmpRow('Total', function(t){ return '<td data-cmp="total" data-tier="' + t.id + '"></td>'; }, 'cmp-total') +
+  cmpRow('Average per month', function(t){ return '<td data-cmp="avg" data-tier="' + t.id + '"></td>'; }) +
+  '</tbody>';
+
+$('#fix-choices').innerHTML = FIXES.map(function(f){
+  return '<label class="choice"><input type="radio" name="fix" value="' + f.id + '"><span>' + esc(f.label) + '</span></label>';
+}).join('');
+
+if (window.matchMedia('(min-width: 1001px)').matches) { $$('.incl').forEach(function(d){ d.open = true; }); }
+
+/* ---------- calculator: render ---------- */
+function breakdownRows(item, r, isFix){
+  var rows = [];
+  rows.push([isFix ? 'Flat fee' : 'Flat rate', fmt(item.flat)]);
+  if (item.monthly === 0) {
+    rows.push(['Monthly maintenance', 'None']);
+  } else {
+    if (item.freeMonths > 0) rows.push(['Months 1\u2013' + item.freeMonths + ' maintenance', 'Included']);
+    if (r.billed > 0) {
+      var lbl = item.freeMonths > 0
+        ? 'Months ' + (item.freeMonths + 1) + '\u2013' + r.months + ' (' + r.billed + ' \u00d7 ' + fmt(item.monthly) + ')'
+        : 'Maintenance (' + r.months + ' \u00d7 ' + fmt(item.monthly) + ')';
+      rows.push([lbl, fmt(r.maint)]);
+    }
+  }
+  return rows.map(function(x){ return '<dt>' + x[0] + '</dt><dd>' + x[1] + '</dd>'; }).join('') +
+    '<dt class="tot">Your total</dt><dd class="tot">' + fmt(r.total) + '</dd>';
+}
+function hintFor(t, r){
+  if (r.below) return t.name + ' service runs ' + t.term + ' months, so I calculated it at ' + t.term + '.';
+  if (r.beyond) return 'The flat rate covers ' + t.term + ' months of service. For longer, message me and we\u2019ll set it up.';
+  return '';
+}
+function setHint(el, text){ el.textContent = text; el.hidden = !text; }
+
+function update(){
+  var cmpHints = [];
+  TIERS.forEach(function(t){
+    var r = calc(t, state.months[t.id]);
+    var card = $('.tier[data-tier="' + t.id + '"]');
+    if (state.tierOn[t.id]) {
+      $('[data-role="breakdown"]', card).innerHTML = breakdownRows(t, r, false);
+      setHint($('[data-role="hint"]', card), hintFor(t, r));
+    }
+    var maintCell = $('[data-cmp="maint"][data-tier="' + t.id + '"]');
+    if (t.monthly === 0) maintCell.innerHTML = 'None';
+    else maintCell.innerHTML = fmt(r.maint) + (t.freeMonths ? '<small>First ' + t.freeMonths + ' months included</small>' : '');
+    $('[data-cmp="total"][data-tier="' + t.id + '"]').textContent = fmt(r.total);
+    $('[data-cmp="avg"][data-tier="' + t.id + '"]').textContent = fmt(Math.round((r.total / r.months) * 100) / 100) + '/mo';
+    var h = hintFor(t, r); if (h) cmpHints.push(h);
+  });
+  setHint($('#cmp-hint'), cmpHints.join(' '));
+  updateFix();
+  updateMail();
+}
+function updateFix(){
+  var f = FIXES.filter(function(x){ return x.id === state.fix; })[0];
+  var box = $('#fix-result');
+  if (!f) { box.hidden = true; return; }
+  box.hidden = false;
+  var r = calc(f, state.fixMonths);
+  $('#fix-price').innerHTML = '<strong>' + fmt(f.flat) + '</strong> flat fee + <strong>' + fmt(f.monthly) + '/mo</strong> maintenance';
+  $('#fix-break').innerHTML = breakdownRows(f, r, true);
+  setHint($('#fix-hint'), r.below ? 'Maintenance lasts at least ' + f.term + ' months, so I calculated it at ' + f.term + '. You can enter a longer time if you\u2019d like.' : '');
+}
+function updateMail(){
+  var a = $('#calc-mail');
+  var lines = ['Hi Elianna,', ''];
+  if (state.hasSite === 'no') {
+    var picks = TIERS.filter(function(t){ return state.tierOn[t.id] || state.compare; });
+    if (picks.length) {
+      lines.push('I used your estimate tool for a new website and I\u2019m interested in:');
+      picks.forEach(function(t){ var r = calc(t, state.months[t.id]); lines.push('- ' + t.name + ', ' + r.months + ' months: ' + fmt(r.total)); });
+    } else lines.push('I don\u2019t have a website yet and I\u2019d like to talk about getting one built.');
+  } else if (state.hasSite === 'yes') {
+    var f = FIXES.filter(function(x){ return x.id === state.fix; })[0];
+    if (f) { var r2 = calc(f, state.fixMonths); lines.push('I already have a website and I\u2019d like it fixed. Issue: ' + f.label + ', ' + r2.months + ' months of maintenance: ' + fmt(r2.total)); }
+    else lines.push('I already have a website and I\u2019d like to talk about fixing it.');
+  }
+  lines.push('', 'Business name:', 'Current website (if any):', '');
+  a.href = 'mailto:eliannaf.ef@gmail.com?subject=' + encodeURIComponent('Website estimate') + '&body=' + encodeURIComponent(lines.join('\n'));
+}
+
+/* ---------- calculator: events ---------- */
+$$('input[name="hasSite"]').forEach(function(r){
+  r.addEventListener('change', function(){
+    state.hasSite = r.value;
+    $('#calc-no').hidden = r.value !== 'no';
+    $('#calc-yes').hidden = r.value !== 'yes';
+    $('#calc-cta').hidden = false;
+    update();
+  });
+});
+$('#calc-no').addEventListener('change', function(e){
+  var el = e.target;
+  if (el.matches('[data-role="toggle"]')) {
+    state.tierOn[el.dataset.tier] = el.checked;
+    $('.tier-calc', el.closest('.tier')).hidden = !el.checked;
+    update();
+  } else if (el.id === 'compare-on') {
+    state.compare = el.checked;
+    $('#compare').hidden = !el.checked;
+    update();
+  } else if (el.matches('[data-role="months"]')) {
+    var t = TIERS.filter(function(x){ return x.id === el.dataset.tier; })[0];
+    var r = calc(t, el.value);
+    state.months[t.id] = String(r.months);
+    $$('[data-role="months"][data-tier="' + t.id + '"]').forEach(function(i){ i.value = r.months; });
+    update();
+  }
+});
+$('#calc-no').addEventListener('input', function(e){
+  var el = e.target;
+  if (!el.matches('[data-role="months"]')) return;
+  state.months[el.dataset.tier] = el.value;
+  $$('[data-role="months"][data-tier="' + el.dataset.tier + '"]').forEach(function(i){ if (i !== el) i.value = el.value; });
+  update();
+});
+$('#fix-choices').addEventListener('change', function(e){
+  if (e.target.name === 'fix') { state.fix = e.target.value; update(); }
+});
+$('#fix-months').addEventListener('input', function(e){ state.fixMonths = e.target.value; update(); });
+$('#fix-months').addEventListener('change', function(e){
+  var f = FIXES.filter(function(x){ return x.id === state.fix; })[0] || FIXES[0];
+  var r = calc(f, e.target.value);
+  state.fixMonths = String(r.months); e.target.value = r.months; update();
+});
+update();
+
+/* ---------- reviews ---------- */
+(function(){
+  var host = $('#review-list');
+  if (!REVIEWS.length) {
+    host.innerHTML =
+      '<div class="review-empty"><div class="quote-mark" aria-hidden="true">&ldquo;</div>' +
+      '<div><h3>My first client reviews are on the way.</h3>' +
+      '<p>I\u2019m just getting started, so there\u2019s nothing here yet. Want to be the first? Try the estimator above, or send me a message and tell me about your business.</p>' +
+      '<a class="btn btn-primary btn-sm" href="#contact">Get in touch</a></div></div>';
+    return;
+  }
+  var wrap = document.createElement('div');
+  wrap.className = 'review-empty';
+  wrap.innerHTML =
+    '<div class="quote-mark" aria-hidden="true">&ldquo;</div>' +
+    '<div>' +
+      '<blockquote class="review-quote" id="review-quote"></blockquote>' +
+      '<figcaption class="review-by" id="review-by"></figcaption>' +
+      '<div class="review-actions">' +
+        '<a class="btn btn-primary btn-sm" href="#contact">Get in touch</a>' +
+        (REVIEWS.length > 1 ? '<button class="review-next" type="button" id="review-next" aria-label="Show next review">&#8594;</button><span class="review-count" id="review-count"></span>' : '') +
+      '</div>' +
+    '</div>';
+  host.appendChild(wrap);
+  var i = 0, q = $('#review-quote'), by = $('#review-by'), count = $('#review-count');
+  function render(){
+    var r = REVIEWS[i];
+    q.textContent = r.text + '\u201d';
+    by.textContent = r.name;
+    if (count) count.textContent = (i + 1) + ' of ' + REVIEWS.length;
+  }
+  var next = $('#review-next');
+  if (next) next.addEventListener('click', function(){ i = (i + 1) % REVIEWS.length; render(); });
+  render();
+})();
+
+/* ---------- social links (only shown once you add URLs) ---------- */
+(function(){
+  var any = false;
+  [['linkedin','#li-about','#li-foot'],['github','#gh-about','#gh-foot']].forEach(function(p){
+    var url = LINKS[p[0]];
+    if (!url) return;
+    any = true;
+    [p[1], p[2]].forEach(function(sel){ var a = $(sel); a.href = url; a.hidden = false; });
+  });
+  if (any) $('#about-links').hidden = false;
+})();
+
+/* ---------- hero CTA buttons: scroll on click instead of relying on default anchor navigation ---------- */
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  $$('[data-scroll]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.getElementById(a.dataset.scroll);
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+})();
+
+/* ---------- hero demo: loops automatically with a pause between plays, Replay restarts it ---------- */
+(function(){
+  var win = $('#demo'), status = $('#demo-status'), badge = $('#demo-badge');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var LOOP_PAUSE = 10000;
+  var timers = [];
+  function set(state, text, b){ win.dataset.state = state; status.textContent = text; badge.textContent = b; }
+  function finish(){
+    set('fixed', '200 OK: your site is live', '200 OK');
+    if (reduce) return;
+    timers.push(setTimeout(run, LOOP_PAUSE));
+  }
+  function run(){
+    timers.forEach(clearTimeout); timers = [];
+    set('broken', 'waiting for yourbusiness.com', '404');
+    if (reduce) { finish(); return; }
+    timers.push(setTimeout(function(){ status.textContent = 'scanning: broken links, no redirects'; }, 900));
+    timers.push(setTimeout(function(){ status.textContent = 'fixing links and redirects...'; }, 1900));
+    timers.push(setTimeout(finish, 3000));
+  }
+  $('#demo-replay').addEventListener('click', run);
+  run();
+})();
+
+/* ---------- nav: mobile menu + current section ---------- */
+(function(){
+  var btn = $('#menu-btn'), nav = $('#nav');
+  btn.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  $$('#nav a').forEach(function(a){ a.addEventListener('click', function(){ nav.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }); });
+  var links = $$('#nav a[data-nav]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        links.forEach(function(l){ l.removeAttribute('aria-current'); });
+        var l = links.filter(function(x){ return x.getAttribute('href') === '#' + e.target.id; })[0];
+        if (l) l.setAttribute('aria-current', 'true');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    links.forEach(function(l){ var s = $(l.getAttribute('href')); if (s) io.observe(s); });
+  }
+  $('#year').textContent = new Date().getFullYear();
+})();
+})();
+</script>
+</body>
+</html>
