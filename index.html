@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <meta name="description" content="Elianna Falcon is a software engineer who builds and fixes websites for small businesses. Flat-rate pricing, an instant cost estimator, and plain-English support.">
-<title>CNE Webservices | Websites for small businesses</title>
+<title>Elianna Falcon | Websites for small businesses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -20,13 +20,6 @@
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0A0F22; --surface:#121936; --surface-2:#1B2450; --ink:#EAF0FF; --muted:#A8B3D6; --line:#2B3666;
-    --accent:#93A5FF; --on-accent:#0A0F22; --pop:#FFD24D; --on-pop:#0A0F22;
-    --ok:#43E0A0; --on-ok:#06210F; --bad:#FF8592; --on-bad:#2A0A10;
-  }
 }
 :root[data-theme="dark"]{
   --bg:#0A0F22; --surface:#121936; --surface-2:#1B2450; --ink:#EAF0FF; --muted:#A8B3D6; --line:#2B3666;
@@ -122,7 +115,8 @@ p{margin:0 0 1em}
 .term-body{padding:16px 18px 18px;overflow-wrap:anywhere}
 .term .p{color:#FFD24D}.term .o{color:#9FB0FF;margin-bottom:.5em;display:block}
 .term a{color:#9FB0FF}
-.term .cur{display:inline-block;width:.6em;height:1.05em;background:#FFD24D;vertical-align:text-bottom}
+.term .cur{display:inline-block;width:.6em;height:1.05em;background:#FFD24D;vertical-align:text-bottom;animation:cur-blink 1s step-end infinite}
+@keyframes cur-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 .steps{list-style:none;margin:clamp(40px,6vw,72px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
 .steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:14px}
 .steps li::before{content:counter(s);display:inline-grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;background:var(--pop);color:var(--on-pop);font:800 .95rem var(--display);margin-bottom:.6em}
@@ -178,6 +172,11 @@ legend{font:700 1.2rem var(--display);padding:0;margin-bottom:.8em}
 .tier-calc{margin-top:.6em;padding-top:1em;border-top:2px dashed var(--line)}
 .field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.95rem;margin-bottom:1em}
 input[type="number"]{font:600 1rem var(--body);padding:.55em .7em;border:2px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink);width:8em}
+select{font:600 1rem var(--body);padding:.55em 2.2em .55em .7em;border:2px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink);width:100%;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F1630' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right .7em center;background-size:1em}
+.discount-card{background:var(--bg);border:2px solid var(--ink);border-radius:14px;padding:clamp(18px,2.2vw,26px);margin-top:18px}
+.discount-card h3{margin-bottom:.3em}
+.discount-card .req{color:var(--muted);font-size:.9rem;margin-top:-.4em}
+.plan-term.term-limited{background:var(--bad);color:var(--on-bad)}
 .breakdown{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin:0;font-size:.95rem}
 .breakdown dt{color:var(--muted)}
 .breakdown dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
@@ -237,8 +236,11 @@ td{font-variant-numeric:tabular-nums}
 .contact{background:var(--ink);color:var(--bg);padding:clamp(56px,8vw,96px) 0 clamp(36px,5vw,56px)}
 .contact h2{color:var(--bg);margin-bottom:.4em}
 .contact p{color:color-mix(in srgb,var(--bg) 82%,transparent);max-width:56ch}
-.contact-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:1.4em}
+.contact-links{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:1.4em}
 .contact .btn-ghost{border-color:var(--bg);color:var(--bg)}
+.icon-bubble{display:inline-flex;align-items:center;justify-content:center;width:2.6em;height:2.6em;border-radius:50%;border:2px solid var(--bg);color:var(--bg);flex:none;transition:transform .15s ease,background .15s ease}
+.icon-bubble:hover{transform:translateY(-2px);background:rgba(255,255,255,.1)}
+.icon-bubble svg{width:1.2em;height:1.2em}
 .foot{margin-top:clamp(36px,5vw,64px);padding-top:18px;border-top:1px solid color-mix(in srgb,var(--bg) 25%,transparent);font-size:.9rem;color:color-mix(in srgb,var(--bg) 70%,transparent)}
 
 /* responsive */
@@ -280,6 +282,7 @@ td{font-variant-numeric:tabular-nums}
       <a href="#about" data-nav>About me</a>
       <a href="#services" data-nav>Services</a>
       <a href="#pricing" data-nav>Pricing</a>
+      <a href="#discounts" data-nav>Discounts</a>
       <a href="#reviews" data-nav>Reviews</a>
       <a class="btn btn-primary btn-sm" href="#contact">Contact me</a>
     </nav>
@@ -293,7 +296,7 @@ td{font-variant-numeric:tabular-nums}
   <div class="wrap hero-grid">
     <div>
       <h1>Website missing, broken, or out of date? I'll fix that.</h1>
-      <p class="lede">I'm Elianna, a software engineer who builds and repairs websites for small businesses. Flat rates, plain English, and a real person who answers your messages.</p>
+      <p class="lede">I'm Elianna, a software engineer who builds and repairs websites for small businesses. Affordable rates, quick results, and a real person who answers your messages.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#calculator" data-scroll="calculator">Estimate my cost</a>
         <a class="btn btn-ghost" href="#pricing" data-scroll="pricing">See pricing</a>
@@ -335,7 +338,8 @@ td{font-variant-numeric:tabular-nums}
       <div>
         <h2 style="margin-bottom:.6em">Hi, I'm Elianna.</h2>
         <p>I'm a software engineer, and I build and repair websites for small businesses. Most owners don't have time to sort out hosting, broken links, or a site that quietly stopped working, so I take that off their plate.</p>
-        <p>I look for businesses whose websites are missing, broken, or out of date, then reach out with a plan to fix it. If I contacted you, this page is the short version of who I am, what I do, and what it costs.</p>
+        <p>I have 9+ years of experience, with more than half being obtained while in undergraduate and graduate studies and the remaining of that time being professional hands-on work at an enterprise level. In addition to websites, I also spend time building apps, software, and programs &mdash; pretty much anything I can think of.</p>
+        <p>I look for businesses whose websites are missing, broken, or out of date, then reach out with a plan to fix it. This page is the short version of who I am, what I do, and what it costs. I am here to bring you the skills, the creativity, and that human touch that is missing.</p>
         <div class="link-row" id="about-links" hidden>
           <a class="btn btn-ghost btn-sm" id="li-about" href="#" target="_blank" rel="noopener" hidden>LinkedIn</a>
           <a class="btn btn-ghost btn-sm" id="gh-about" href="#" target="_blank" rel="noopener" hidden>GitHub</a>
@@ -344,12 +348,12 @@ td{font-variant-numeric:tabular-nums}
       <div class="term" aria-label="Quick facts about Elianna">
         <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="term-body">
-          <div><span class="p">$</span> whoami</div><span class="o">elianna_falcon</span>
+          <div><span class="p">$</span> whoami</div><span class="o">elianna</span>
           <div><span class="p">$</span> cat role.txt</div><span class="o">software engineer</span>
           <div><span class="p">$</span> cat focus.txt</div><span class="o">websites for small businesses</span>
           <div><span class="p">$</span> cat area_base.txt</div><span class="o">Charlotte, North Carolina</span>
           <div><span class="p">$</span> cat contact.txt</div>
-          <span class="o"><a href="mailto:eliannaf.ef@gmail.com">eliannaf.ef@gmail.com</a><br><a href="tel:+19105842271">910-584-2271</a></span>
+          <span class="o"><a href="mailto:info@cnewebservices.com">info@cnewebservices.com</a></span>
           <div><span class="p">$</span> <span class="cur" aria-hidden="true"></span></div>
         </div>
       </div>
@@ -481,6 +485,27 @@ td{font-variant-numeric:tabular-nums}
   </div>
 </section>
 
+<!-- DISCOUNTS -->
+<section class="sec sec-alt" id="discounts">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Discounts</h2>
+      <p class="lede">Check out our different types of discounts below. Choose a discount to learn more about it.</p>
+    </div>
+
+    <label class="field" style="max-width:360px">
+      <span>Choose a discount</span>
+      <select id="discount-select">
+        <option value="">Select a discount&hellip;</option>
+      </select>
+    </label>
+
+    <div id="discount-detail"></div>
+
+    <p class="svc-note" style="margin-top:28px">Please note that you can not use more than one discount at a time.</p>
+  </div>
+</section>
+
 <!-- REVIEWS -->
 <section class="sec" id="reviews">
   <div class="wrap">
@@ -499,11 +524,16 @@ td{font-variant-numeric:tabular-nums}
     <h2>Want a working website? Let's talk.</h2>
     <p>Send me your business name and what's going on with your site, or that you don't have one yet. I'll reply with next steps.</p>
     <div class="contact-links">
-      <a class="btn btn-pop" href="mailto:eliannaf.ef@gmail.com">eliannaf.ef@gmail.com</a>
-      <a class="btn btn-ghost" href="tel:+19105842271">910-584-2271</a>
+      <a class="btn btn-pop" href="mailto:info@cnewebservices.com">info@cnewebservices.com</a>
       <a class="btn btn-ghost" id="li-foot" href="#" target="_blank" rel="noopener" hidden>LinkedIn</a>
       <a class="btn btn-ghost" id="gh-foot" href="#" target="_blank" rel="noopener" hidden>GitHub</a>
       <a class="btn btn-ghost" href="https://calendly.com/eliannaf-ef/20" target="_blank" rel="noopener">Schedule</a>
+      <a class="icon-bubble" href="https://www.instagram.com/cnewebservices/" target="_blank" rel="noopener" aria-label="CNE Webservices on Instagram">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+      </a>
+      <a class="icon-bubble" href="https://www.facebook.com/profile.php?id=61594506557437" target="_blank" rel="noopener" aria-label="CNE Webservices on Facebook">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 8.5h2V5.3c-.35-.05-1.54-.15-2.94-.15-2.9 0-4.9 1.77-4.9 5.02V13H6v3.6h3.16V23h3.68v-6.4h3.05l.49-3.6h-3.54v-2.4c0-1.04.28-1.7 1.66-1.7Z" fill="currentColor"/></svg>
+      </a>
     </div>
     <div class="foot">&copy; <span id="year">2026</span> CNE Webservices. Websites for small businesses.</div>
   </div>
@@ -554,10 +584,10 @@ var TIERS = [
     amt:'$875', sub:'flat rate, no monthly fee',
     included:[
       'Basic to moderate updates: adding pictures or information and editing or modifying pages (but not changing the whole website), during and after business hours until midnight.',
-      ['Up to 10 changes per quarter.', 'Example: on Monday you ask me to upload 12 pictures and by Friday you ask me to change the font color. That is only 2 changes, so you have 8 left for that quarter.'],
+      ['Up to 3 changes per quarter.', 'Example: on Monday you ask me to upload 12 pictures and by Friday you ask me to change the font color. That is only 2 changes, so you have 1 left for that quarter.'],
       'Moderate uptime monitoring and constant logging.',
-      'Support response time within 24 hours.',
-      'Website updates delivered within 48 hours.',
+      'Support response time within 48 hours.',
+      'Website updates delivered between 48 - 72 hours of receiving requests.',
       'Security scans and SSL certificate monitoring.'
     ]},
   { id:'three', name:'Tier Three', flat:3500, monthly:15, freeMonths:12, term:24, termLabel:'2 years',
@@ -567,7 +597,10 @@ var TIERS = [
       'Rebuild the entire website (1 allowed every other quarter).',
       'Priority support response time within an hour.',
       'Priority changes updated and delivered in under 24 hours.',
-      '3 to 5 hours of dedicated design, development, and/or marketing adjustments per month.',
+      '3 hours of dedicated design, development, and/or marketing adjustments per month.',
+      'Follow on all social media platforms.',
+      '5-Star Google Review Ratings.',
+      'Free company marketing on CNE Webservices platforms.',
       'Advanced speed and data optimization checks.',
       'Quarterly strategy or check-in call.',
       'Security scans and SSL certificate monitoring.'
@@ -578,6 +611,38 @@ var FIXES = [
   { id:'404',      name:'404 error fix, links not working', label:'404 errors + links not working', flat:200, monthly:20, freeMonths:0, term:6 },
   { id:'outdated', name:'Outdated website fix',          label:'Outdated',                        flat:250, monthly:10, freeMonths:0, term:6 }
 ];
+var SERVICES = TIERS.concat(FIXES);
+var DISCOUNTS = [
+  { id:'birthday', name:'Birthday', badge:'Permanent', pct:25,
+    desc:'Enjoy a 25% discount on your Birthday!',
+    req:'Must be a current or prior client who has already had services done.' },
+  { id:'holiday', name:'Holiday', isGroup:true,
+    sub:[
+      { id:'spooky', name:'Spooky Deals', badge:'Limited time: begins October 1st', limited:true, pct:75,
+        desc:'This is a spooky time to get a website built for cheap! Don\u2019t tell the ghouls about your 75% discount off any service.' },
+      { id:'thanks', name:'Giving Thanks', badge:'Limited time: begins November 1st', limited:true, pct:75,
+        desc:'Give thanks and affordable, unique websites. We are thankful for you, enjoy a 75% discount off any service.' },
+      { id:'giftwrap', name:'Gift Wrapper', badge:'Limited time: begins December 1st', limited:true, pct:75,
+        desc:'Ho ho ho! Merry Christmas, come open your present \u2014 it could be a 75% discount off any service.' }
+    ]},
+  { id:'newco', name:'New Company', badge:'Permanent', pct:65,
+    desc:'Congratulations on your new venture! Here is a gift for you, 65% discount for your New Company.',
+    req:'Must be a company that is two years old and/or less than two years old.' },
+  { id:'veteran', name:'Veterans', badge:'Permanent', pct:40,
+    desc:'Thank you for your service and sacrifices! To show our appreciation enjoy a 40% discount off any service.',
+    req:'Must show I.D. or proof of veteran\u2019s status.' },
+  { id:'referral', name:'Recommend A Friend', badge:'Permanent', pct:20,
+    desc:'Friends? How many of us have them. Looks like yours has your back, here is a 20% discount off any service.',
+    req:'Must provide the friend who has/had service with us\u2019s active discount code.' },
+  { id:'student', name:'Student', badge:'Permanent', pct:25,
+    desc:'Keep grinding in your studies and let this 25% discount help you along the way.',
+    req:'Must show active student I.D. or proof of active university status.' }
+];
+var DISCOUNT_PCT = {};
+DISCOUNTS.forEach(function(d){
+  if (d.sub) d.sub.forEach(function(s){ DISCOUNT_PCT[s.id] = s.pct; });
+  else DISCOUNT_PCT[d.id] = d.pct;
+});
 
 function calc(item, raw){
   var min = item.term;
@@ -649,6 +714,52 @@ $('#fix-choices').innerHTML = FIXES.map(function(f){
 }).join('');
 
 if (window.matchMedia('(min-width: 1001px)').matches) { $$('.incl').forEach(function(d){ d.open = true; }); }
+
+/* ---------- discounts ---------- */
+$('#discount-select').innerHTML += DISCOUNTS.map(function(d){
+  return '<option value="' + d.id + '">' + esc(d.name) + '</option>';
+}).join('');
+
+function serviceOptionsHTML(){
+  return '<option value="">Select a service&hellip;</option>' +
+    SERVICES.map(function(s){ return '<option value="' + s.id + '">' + esc(s.name) + ' (' + fmt(s.flat) + ')</option>'; }).join('');
+}
+function discountCardHTML(d){
+  return '<div class="discount-card">' +
+    '<h3>' + esc(d.name) + '</h3>' +
+    '<span class="plan-term' + (d.limited ? ' term-limited' : '') + '">' + esc(d.badge) + '</span>' +
+    '<p>' + esc(d.desc) + '</p>' +
+    (d.req ? '<p class="req">' + esc(d.req) + '</p>' : '') +
+    '<label class="field" style="max-width:320px;margin-top:1em"><span>Which service?</span>' +
+      '<select data-role="disc-service" data-disc="' + d.id + '">' + serviceOptionsHTML() + '</select></label>' +
+    '<dl class="breakdown" data-role="disc-breakdown" data-disc="' + d.id + '" aria-live="polite"></dl>' +
+    '<p class="hint">Applies to the flat/base price only; monthly maintenance fees are not discounted.</p>' +
+  '</div>';
+}
+$('#discount-select').addEventListener('change', function(e){
+  var id = e.target.value;
+  var host = $('#discount-detail');
+  if (!id) { host.innerHTML = ''; return; }
+  var d = DISCOUNTS.filter(function(x){ return x.id === id; })[0];
+  if (d.sub) host.innerHTML = d.sub.map(discountCardHTML).join('');
+  else host.innerHTML = discountCardHTML(d);
+});
+$('#discount-detail').addEventListener('change', function(e){
+  var el = e.target;
+  if (!el.matches('[data-role="disc-service"]')) return;
+  var discId = el.dataset.disc;
+  var breakdownEl = $('[data-role="disc-breakdown"][data-disc="' + discId + '"]');
+  var svcId = el.value;
+  if (!svcId) { breakdownEl.innerHTML = ''; return; }
+  var svc = SERVICES.filter(function(s){ return s.id === svcId; })[0];
+  var pct = DISCOUNT_PCT[discId];
+  var off = Math.round(svc.flat * pct) / 100;
+  var discounted = Math.round((svc.flat - off) * 100) / 100;
+  breakdownEl.innerHTML =
+    '<dt>Regular price</dt><dd>' + fmt(svc.flat) + '</dd>' +
+    '<dt>Discount (' + pct + '%)</dt><dd>-' + fmt(off) + '</dd>' +
+    '<dt class="tot">Your price</dt><dd class="tot">' + fmt(discounted) + '</dd>';
+});
 
 /* ---------- calculator: render ---------- */
 function breakdownRows(item, r, isFix){
